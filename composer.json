@@ -1,7 +1,7 @@
 {
-    "name": "Entrack/RestfulAPIService",
+    "name": "entrack/restful-api-service",
     "type": "library",
-    "description": "A restful api service for mico-service architecture using the JSON:API",
+    "description": "A restful api service for mirco-service architecture using the JSON:API",
     "keywords": [
         "Entrack",
         "RestfulAPIService"
