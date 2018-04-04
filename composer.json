@@ -54,6 +54,6 @@
     },
     "config": {
         "sort-packages": true,
-        "minimum-stability": "alpha"
+        "minimum-stability": "dev"
     }
 }
