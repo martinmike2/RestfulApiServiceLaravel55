@@ -17,8 +17,8 @@
         }
     ],
     "require": {
-        "illuminate/support": "~5.1",
-        "php" : "~7.0",
+        "illuminate/support": "~5.5",
+        "php" : ">=7.0.0",
         "dingo/api": "2.0.0-alpha2"
     },
     "require-dev": {
