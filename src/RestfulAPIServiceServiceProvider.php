@@ -3,13 +3,20 @@
 namespace Entrack\RestfulAPIService;
 
 use Dingo\Api\Auth\Provider\JWT;
+use Dingo\Api\Provider\DingoServiceProvider;
+use Laracasts\Commander\CommanderServiceProvider;
 use Dingo\Api\Transformer\Adapter\Fractal;
+use Entrack\RestfulAPIService\Serializers\JsonApiSerializer;
 use Illuminate\Support\ServiceProvider;
 use League\Fractal\Manager;
-use League\Fractal\Serializer\JsonApiSerializer;
 
 class RestfulAPIServiceServiceProvider extends ServiceProvider
 {
+    protected $serviceProviders = [
+        DingoServiceProvider::class,
+        CommanderServiceProvider::class
+    ];
+
     /**
      * Perform post-registration booting of services.
      *
@@ -21,18 +28,16 @@ class RestfulAPIServiceServiceProvider extends ServiceProvider
             __DIR__.'../config/api.php' => config_path('api.php')
         ]);
 
-        $app = App();
-        $app['Dingo\Api\Auth\Auth']->extend('oauth', function ($app) {
+        $this->app->extend('oauth', function ($app) {
             return new JWT($app['Tymon\JWTAuth\JWTAuth']);
         });
-
-        $app['Dingo\Api\Transformer\Factory']->setAdapter(function ($app) {
+        app('Dingo\Api\Transformer\Factory')->setAdapter(function ($app) {
             $fractal = new Manager();
             $fractal->setSerializer(new JsonApiSerializer());
             return new Fractal($fractal);
         });
 
-        $app['Dingo\Api\Exception\Handler']->setErrorFormat([
+        app('Dingo\Api\Exception\Handler')->setErrorFormat([
             'error' => [
                 'message' => ':message',
                 'errors' => ':errors',
@@ -50,6 +55,8 @@ class RestfulAPIServiceServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
+        foreach ($this->serviceProviders as $serviceProvider) {
+            $this->app->register($serviceProvider);
+        }
     }
 }
