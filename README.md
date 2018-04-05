@@ -9,15 +9,13 @@
 
 **Note:** Replace ```Michael Martin``` ```martinmike2``` ```https://github.com/martinmike2``` ```mmartin@encoretg.com``` ```Entrack``` ```RestfulAPIService``` ```A restful api service for mico-service architecture using the JSON:API``` with their correct values in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), [CONTRIBUTING.md](CONTRIBUTING.md), [LICENSE.md](LICENSE.md) and [composer.json](composer.json) files, then delete this line. You can run `$ php prefill.php` in the command line to make all replacements at once. Delete the file prefill.php as well.
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
-PSRs you support to avoid any confusion with users and contributors.
+This package is designed to abstract much of the transformer setup in Dingo and Fractal
 
 ## Structure
 
 If any of the following are applicable to your project, then the directory structure should follow industry best practices by being named the following.
 
-```
-bin/        
+```     
 config/
 src/
 tests/
@@ -30,14 +28,13 @@ vendor/
 Via Composer
 
 ``` bash
-$ composer require Entrack/RestfulAPIService
+$ composer require entrack/restful-api-service
 ```
 
 ## Usage
 
 ``` php
-$skeleton = new Entrack\RestfulAPIService();
-echo $skeleton->echoPhrase('Hello, League!');
+
 ```
 
 ## Change log
@@ -56,7 +53,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) and [CODE_OF_CONDUCT](CODE_OF_CONDUCT
 
 ## Security
 
-If you discover any security related issues, please email mmartin@encoretg.com instead of using the issue tracker.
+If you discover any security related issues, please use the issue tracker.
 
 ## Credits
 
