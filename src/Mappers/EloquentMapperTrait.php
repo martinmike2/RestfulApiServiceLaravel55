@@ -24,88 +24,18 @@ trait EloquentMapperTrait
      * Update the model in the database.
      *
      * @param  array  $attributes
-     * @return bool|int
+     * @param  array  $options
+     * @return bool
      */
-    public function update(array $attributes = array())
+    public function update(array $attributes = [], array $options = [])
     {
-        return parent::update($this->mapOutput($attributes));
+        if (! $this->exists) {
+            return false;
+        }
+
+        return $this->fill($attributes)->save($options);
     }
 
-    /**
-     * Get an attribute from the model.
-     *
-     * @param  string  $key
-     * @return mixed
-     */
-    public function getAttribute($key)
-    {
-        return parent::getAttribute(
-            $this->getInputKey($key)
-        );
-    }
-
-    /**
-     * Get an attribute from the $attributes array.
-     *
-     * @param  string  $key
-     * @return mixed
-     */
-    protected function getAttributeFromArray($key)
-    {
-        return parent::getAttributeFromArray(
-            $this->getInputKey($key)
-        );
-    }
-
-    /**
-     * Convert the model instance to an array.
-     *
-     * @return array
-     */
-    public function attributesToArray()
-    {
-        return $this->mapOutput(parent::attributesToArray());
-    }
-
-    /**
-     * Get all of the current attributes on the model.
-     *
-     * @return array
-     */
-    public function getAttributes()
-    {
-        return $this->mapOutput(parent::getAttributes());
-    }
-
-    /**
-     * Set the array of model attributes. No checking is done.
-     *
-     * @param  array  $attributes
-     * @param  bool   $sync
-     * @return void
-     */
-    public function setRawAttributes(array $attributes, $sync = false)
-    {
-        parent::setRawAttributes(
-            $this->mapInput($attributes),
-            $sync
-        );
-    }
-
-    /**
-     * Get the model's original attribute values.
-     *
-     * @param  string  $key
-     * @param  mixed   $default
-     * @return array
-     */
-    public function getOriginal($key = null, $default = null)
-    {
-        return parent::getOriginal(
-            $this->getInputKey($key),
-            $default
-        );
-    }
 
     /**
      * Map all keys for output

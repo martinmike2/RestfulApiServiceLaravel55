@@ -3,7 +3,6 @@
 use Entrack\RestfulAPIService\Contracts\EntityInterface;
 use Entrack\RestfulAPIService\Contracts\FormatPresenterInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 class JsonApiFormatPresenter implements FormatPresenterInterface
 {
@@ -40,7 +39,7 @@ class JsonApiFormatPresenter implements FormatPresenterInterface
     public function requestUrl()
     {
         $query = $this->request->getQueryString();
-        $path = $this->request->path();
+        $path = url()->current();
 
         return [
             'self' => $query ? "$path?$query" : $path
@@ -49,7 +48,7 @@ class JsonApiFormatPresenter implements FormatPresenterInterface
 
     public function includes()
     {
-        $relationships = Arr::map(
+        $relationships = array_map(
             function($value, $key) {
                 return array_map(function ($r) use ($key) {
                     return ['type' => $key]
@@ -62,7 +61,7 @@ class JsonApiFormatPresenter implements FormatPresenterInterface
             $this->entity->relationships()
         );
 
-        return Arr::flatten($relationships);
+        return array_flatten($relationships);
     }
 
     public function links()
@@ -85,7 +84,7 @@ class JsonApiFormatPresenter implements FormatPresenterInterface
 
     public static function relationshipLinks($type, $id, array $relationships)
     {
-        return Arr::map(
+        return array_map(
             function($value, $key) use ($type, $id) {
                 return [
                     'related' => "$type/$id/$key",

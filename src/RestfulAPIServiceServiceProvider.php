@@ -5,6 +5,7 @@ namespace Entrack\RestfulAPIService;
 use Dingo\Api\Auth\Provider\JWT;
 use Dingo\Api\Provider\DingoServiceProvider;
 use Laracasts\Commander\CommanderServiceProvider;
+use Entrack\RestfulAPIService\HttpQuery\HttpQueryServiceProvider;
 use Dingo\Api\Transformer\Adapter\Fractal;
 use Entrack\RestfulAPIService\Serializers\JsonApiSerializer;
 use Illuminate\Support\ServiceProvider;
@@ -14,7 +15,8 @@ class RestfulAPIServiceServiceProvider extends ServiceProvider
 {
     protected $serviceProviders = [
         DingoServiceProvider::class,
-        CommanderServiceProvider::class
+        CommanderServiceProvider::class,
+        HttpQueryServiceProvider::class
     ];
 
     /**

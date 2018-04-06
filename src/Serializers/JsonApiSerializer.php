@@ -9,4 +9,18 @@ class JsonApiSerializer extends ArraySerializer
     {
         return with(new CollectionResponseTransformer())->transform($data);
     }
+
+    public function item($resource_key, array $data)
+    {
+        return $data;
+    }
+
+    public function meta(array $meta)
+    {
+        if (empty($meta)) {
+            return [];
+        }
+
+        return $meta;
+    }
 }

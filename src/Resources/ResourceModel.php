@@ -1,16 +1,16 @@
 <?php namespace Entrack\RestfulAPIService\Resources;
 
+use Entrack\RestfulAPIService\Http\Client\Relations\Relation;
 use Illuminate\Database\Eloquent\Concerns\HasAttributes;
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use Fuelingbrands\RestfulApiService\Entities\EloquentToEntityTrait;
-use Fuelingbrands\RestfulApiService\HttpQuery\Eloquent\HttpQueryTrait;
-use Fuelingbrands\RestfulApiService\Mappers\EloquentMapperTrait;
-use Fuelingbrands\PostgreSQL\Model\PostgresModelTrait;
-use Fuelingbrands\RestfulApiService\Database\Eloquent\BuilderModelTrait;
-use Fuelingbrands\RestfulApiService\Models\ModelObserverTrait;
-use Fuelingbrands\RestfulApiService\Http\Client\Relations\EloquentRelationsTrait;
+use Entrack\RestfulAPIService\Entities\EloquentToEntityTrait;
+use Entrack\RestfulAPIService\HttpQuery\Eloquent\HttpQueryTrait;
+use Entrack\RestfulAPIService\Mappers\EloquentMapperTrait;
+use Entrack\RestfulAPIService\Database\PostgreSQL\Model\PostgresModelTrait;
+use Entrack\RestfulAPIService\Database\Eloquent\BuilderModelTrait;
+use Entrack\RestfulAPIService\Models\ModelObserverTrait;
+use Entrack\RestfulAPIService\Http\Client\Relations\EloquentRelationsTrait;
 use Laracasts\Commander\Events\EventGenerator;
-use Fuelingbrands\RestfulApiService\Http\Client\Relations\Relation as ClientRelation;
 
 class ResourceModel extends Eloquent {
 
@@ -58,5 +58,25 @@ class ResourceModel extends Eloquent {
         }
 
         return $this->PostgresHasManyArray($related, $foreignKey, $localKey);
+    }
+
+    /**
+     * Get a relationship value from a method.
+     *
+     * @param $method
+     * @return mixed
+     *
+     */
+    protected function getRelationshipFromMethod($method)
+    {
+        $relation = $this->$method();
+
+        if (! $relation instanceof Relation) {
+            throw new \LogicException("{get_class($this)}::$method must return a relationship instance.");
+        }
+
+        return tap($relation->getResults(), function ($results) use ($method) {
+            $this->setRelation($method, $results);
+        });
     }
 }

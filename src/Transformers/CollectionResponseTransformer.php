@@ -1,7 +1,5 @@
 <?php namespace Entrack\RestfulAPIService\Transformers;
 
-use Illuminate\Support\Arr;
-
 class CollectionResponseTransformer
 {
     protected $original;
@@ -29,8 +27,8 @@ class CollectionResponseTransformer
     public function setIncluded()
     {
         $return = [];
-        $included = Arr::flatten(array_pluck($this->original, 'included', []));
-        $unique = array_unique(array_pluck($included, 'id', []));
+        $included = array_flatten(array_pluck($this->original, 'included'));
+        $unique = array_unique(array_pluck($included, 'id'));
 
         foreach ($unique as $item) {
             $return[] = array_first(
@@ -46,7 +44,6 @@ class CollectionResponseTransformer
 
     public function setData()
     {
-        dd($this->original);
         $this->response['data'] = array_pluck($this->original, 'data');
     }
 }
